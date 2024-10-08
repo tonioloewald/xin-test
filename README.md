@@ -1,6 +1,6 @@
-# xin-blueprint
+# xin-test
 
-The example web-component is a toggle-switch.
+This web-component allows you to run tests and display the results.
 
 To use one of these components, you need to use [xinjs](https://xinjs.net). You can
 load the component in code, e.g.
@@ -9,11 +9,11 @@ load the component in code, e.g.
 
 ```
 import { makeComponent } from 'xinjs'
-import blueprint from 'create-xinjs-blueprint'
+import blueprint from 'xin-error-component'
 
-const { creator, type } = makeBlueprint('some-tag', blueprint)
+const xinError = makeBlueprint('xin-error', blueprint).creator
 
-document.body.append(creator())
+document.body.append(xinError({description: 'always fails', async test(){ return false }}))
 ```
 
 ## CDN
@@ -26,6 +26,25 @@ const { creator, type } = makeBlueprint('some-tag', blueprint)
 
 document.body.append(creator())
 ```
+
+## HTML
+
+```
+<xin-error delay="2000" expect="2">
+  return 1 + 1
+</xin-error>
+```
+
+## Attributes
+
+- `description` description of the test (defaults to the code)
+- `delay` delay in ms before executing the test
+- `expect` "true" by default; JSON encoded value for expected outcome
+- `status` holds the outcome of the test
+
+## Properties
+
+- `test` a function, asynchronous or not, that returns a value
 
 ## Development
 

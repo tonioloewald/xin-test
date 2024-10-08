@@ -1,6 +1,6 @@
 import { XinBlueprint } from 'xinjs'
 
-export type TestExpression = () => Promise<boolean> | boolean
+export type TestExpression = () => Promise<any> | any
 
 const AsyncFunction = (async () => undefined).constructor
 
@@ -13,7 +13,7 @@ export const test: XinBlueprint = (tag, factory) => {
     delay = 0
     description = ''
     status = ''
-    expect = true
+    expect = 'true'
 
     static delay(ms: number): Promise<void> {
       return new Promise((resolve) => {
@@ -68,22 +68,22 @@ export const test: XinBlueprint = (tag, factory) => {
 
     constructor() {
       super()
-      this.initAttributes('description', 'delay', 'status')
+      this.initAttributes('description', 'delay', 'status', 'expect')
     }
 
     run = () => {
       clearTimeout(this.timeout)
-      console.log(this.test)
       if (!this.test) {
         // @ts-expect-error this works just fine
         this.test = new AsyncFunction(this.textContent)
       }
+      const expected = JSON.parse(this.expect)
       this.status = 'waiting'
       this.timeout = setTimeout(async () => {
         this.status = 'running'
         try {
           const outcome = JSON.stringify(await this.test!())
-          if (outcome === JSON.stringify(this.expect)) {
+          if (outcome === JSON.stringify(expected)) {
             this.status = 'success'
           } else {
             this.status = `failed: got ${outcome}, expected ${this.expect}`

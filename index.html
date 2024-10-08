@@ -8,6 +8,7 @@
 <h2>HTML Tests (code inline)</h2>
 <element-demo description="simple success"> return true </element-demo>
 <element-demo description="simple failure"> return false </element-demo>
+<element-demo description="1 + 1" expect="2"> return 1 + 1 </element-demo>
 <element-demo description="succeeds after 5s" delay="5000">
   return true
 </element-demo>
@@ -23,7 +24,7 @@
   )
 
   const blueprint = (await import('/dist/blueprint.js')).default
-  const { creator } = makeComponent('element-demo', blueprint)
+  const { creator, type } = makeComponent('element-demo', blueprint)
   document.body.append(
     creator({
       delay: 2000,
@@ -31,7 +32,18 @@
       async test() {
         return 17
       },
-      expect: 17,
+      expect: '17',
+    })
+  )
+  document.body.append(
+    creator({
+      delay: 2000,
+      description: 'success from code after 2s delay and 2s running',
+      async test() {
+        await type.delay(2000)
+        return 17
+      },
+      expect: '17',
     })
   )
 </script>
