@@ -1,19 +1,15 @@
-import { XinBlueprint, PartsMap } from 'xinjs'
-
-interface ToggleParts extends PartsMap {
-  valueHolder: HTMLInputElement
-}
+import { XinBlueprint } from 'xinjs'
 
 export type TestExpression = () => Promise<boolean> | boolean
 
-const AsyncFunction = (async () => {}).constructor
+const AsyncFunction = (async () => undefined).constructor
 
 export const test: XinBlueprint = (tag, factory) => {
   const { Component, elements, vars } = factory
   const { span, slot } = elements
 
   class XinTest extends Component {
-    test?: TestExpression
+    test: TestExpression | null = null
     delay = 0
     description = ''
     status = ''
@@ -77,8 +73,9 @@ export const test: XinBlueprint = (tag, factory) => {
 
     run = () => {
       clearTimeout(this.timeout)
+      console.log(this.test)
       if (!this.test) {
-        // @ts-ignore-error this works just fine
+        // @ts-expect-error this works just fine
         this.test = new AsyncFunction(this.textContent)
       }
       this.status = 'waiting'

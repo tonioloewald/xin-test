@@ -26,11 +26,12 @@
   const { creator } = makeComponent('element-demo', blueprint)
   document.body.append(
     creator({
-      description: 'success from code',
-      test() {
-        debugger
-        return true
+      delay: 2000,
+      description: 'success from code after 2s delay',
+      async test() {
+        return 17
       },
+      expect: 17,
     })
   )
 </script>
