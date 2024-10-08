@@ -23,7 +23,7 @@
     'https://cdn.jsdelivr.net/npm/xinjs@0.6.12/dist/module.js'
   )
 
-  const blueprint = (await import('/dist/blueprint.js')).default
+  const blueprint = (await import('./dist/blueprint.js')).default
   const { creator, type } = makeComponent('element-demo', blueprint)
   document.body.append(
     creator({
