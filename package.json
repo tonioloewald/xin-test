@@ -1,5 +1,5 @@
 {
-  "name": "xin-test",
+  "name": "xin-test-component",
   "module": "dist/blueprint.js",
   "version": "0.1.1",
   "type": "module",
