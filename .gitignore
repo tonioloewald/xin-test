@@ -163,3 +163,7 @@ web_modules/
 
 # Finder (MacOS) folder config
 .DS_Store
+
+# bun
+
+bun.lockb
