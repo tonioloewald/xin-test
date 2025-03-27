@@ -102,7 +102,6 @@ export const test: XinBlueprint = (tag, factory) => {
 
     disconnectedCallback(): void {
       super.disconnectedCallback()
-      this.class
       clearTimeout(this.timeout)
     }
 
