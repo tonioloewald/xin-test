@@ -1,5 +1,7 @@
 # xin-test
 
+[live demo](https://tonioloewald.github.io/xin-test/) | [npmjs](https://www.npmjs.com/package/xin-test-component)
+
 This web-component allows you to run tests and display the results.
 
 To use one of these components, you need to use [xinjs](https://xinjs.net). You can
