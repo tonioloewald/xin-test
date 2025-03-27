@@ -1,14 +1,19 @@
-import { XinBlueprint } from 'xinjs'
+import { XinBlueprint, PartsMap, XinStyleSheet } from 'xinjs'
 
 export type TestExpression = () => Promise<any> | any
 
 const AsyncFunction = (async () => undefined).constructor
 
+interface TestParts extends PartsMap {
+  description: HTMLSpanElement
+  outcome: HTMLSpanElement
+}
+
 export const test: XinBlueprint = (tag, factory) => {
   const { Component, elements, vars } = factory
   const { span, slot } = elements
 
-  class XinTest extends Component {
+  class XinTest extends Component<TestParts> {
     test: TestExpression | null = null
     delay = 0
     description = ''
@@ -96,7 +101,6 @@ export const test: XinBlueprint = (tag, factory) => {
 
     connectedCallback() {
       super.connectedCallback()
-      this.parts.description.textContent = this.description || this.textContent
       this.run()
     }
 
@@ -107,14 +111,15 @@ export const test: XinBlueprint = (tag, factory) => {
 
     render(): void {
       super.render()
-      const { outcome } = this.parts
+      const { outcome, description } = this.parts
+      description.textContent = this.description || this.textContent
       outcome.textContent = this.status
       outcome.setAttribute('class', this.status.match(/\w+/)![0])
     }
   }
 
   return {
-    type: XinTest,
+    type: XinTest as typeof Component,
     styleSpec: {
       ':root': {
         _testGap: '8px',
@@ -137,7 +142,7 @@ export const test: XinBlueprint = (tag, factory) => {
         _testExceptionColor: 'white',
         _testExceptionBg: 'red',
       },
-    },
+    } as XinStyleSheet,
   }
 }
 
