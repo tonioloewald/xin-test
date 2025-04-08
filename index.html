@@ -25,6 +25,12 @@
 <element-demo description="simple success"> return true </element-demo>
 <element-demo description="simple failure"> return false </element-demo>
 <element-demo description="1 + 1" expect="2"> return 1 + 1 </element-demo>
+<element-demo description="json comparison (string)" expect='"hello, test"'>
+  return 'hello, test'
+</element-demo>
+<element-demo description="json comparison (object)" expect='{"foo":"bar"}'>
+  return {foo: 'bar'}
+</element-demo>
 <element-demo description="succeeds after 5s" delay="5000">
   return true
 </element-demo>
@@ -45,14 +51,26 @@
   const { creator, type } = await makeComponent('element-demo', blueprint)
   document.body.append(
     elementDemo({
-      description: 'immediate success',
+      description: 'immediate success (number)',
       async test() {
         return 42
       },
       expect: '42',
-    })
-  )
-  document.body.append(
+    }),
+    elementDemo({
+      description: 'immediate success (string)',
+      async test() {
+        return 'this is a test'
+      },
+      expect: '"this is a test"',
+    }),
+    elementDemo({
+      description: 'immediate success (array)',
+      async test() {
+        return [1, 2, '3']
+      },
+      expect: '[1,2,"3"]',
+    }),
     creator({
       delay: 2000,
       description: 'success from code after 2s delay',
@@ -60,9 +78,7 @@
         return 17
       },
       expect: '17',
-    })
-  )
-  document.body.append(
+    }),
     creator({
       delay: 2000,
       description: 'success from code after 2s delay and 2s running',
